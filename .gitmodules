@@ -1,0 +1,6 @@
+[submodule "Japaninja.Client"]
+	path = Japaninja.Client
+	url = https://github.com/DUF1LT/JapaninjaClient.git
+[submodule "Japaninj.WebApi"]
+	path = Japaninja.WebApi
+	url = https://github.com/DUF1LT/JapaninjaWebApi.git
