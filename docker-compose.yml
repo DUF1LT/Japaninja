@@ -1,0 +1,49 @@
+version: '3.4'
+
+volumes:
+  japaninja_cert:
+    external: true
+
+services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    container_name: japaninja.sqlserver
+    restart: always
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=017619E0-ECF4-48CE-B590-CA2F6AEF901F
+    ports:
+      - 1633:1433
+
+  webapi:
+    image: japaninja.webapi
+    container_name: japaninja.webapi
+    restart: always
+    build:
+      context: ./Japaninja.WebApi
+      dockerfile: Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Localhost
+      - ASPNETCORE_URLS=https://0.0.0.0:2472
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=japaninja2472
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/japaninjapp.pfx
+    depends_on:
+      - 'sqlserver'
+    volumes:
+      - 'japaninja_cert:/https/'
+    ports:
+      - 2472:2472
+
+  client:
+    image: japaninja.client
+    container_name: japaninja.client
+    build:
+      context: ./Japaninja.Client
+      dockerfile: Dockerfile
+      target: development
+    ports:
+      - 24702:24702
+    depends_on:
+      - 'webapi'
+
+# "Server=sqlserver;Database=Japaninja;User=sa;Password=017619E0-ECF4-48CE-B590-CA2F6AEF901F",
