@@ -27,6 +27,7 @@ services:
       - ASPNETCORE_URLS=https://0.0.0.0:2472
       - ASPNETCORE_Kestrel__Certificates__Default__Password=japaninja2472
       - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/japaninjapp.pfx
+      - ConnectionStrings:DefaultConnection="Server=sqlserver;Database=Japaninja;User=sa;Password=017619E0-ECF4-48CE-B590-CA2F6AEF901F"
     depends_on:
       - 'sqlserver'
     volumes:
